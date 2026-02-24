@@ -3,14 +3,15 @@ name: Daily Financial Data Fetch
 on:
   schedule:
     # Runs automatically every day at midnight UTC
-    - cron: '0 0 * * *' 
-  workflow_dispatch: # Allows you to run it manually by clicking a button
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
+
     permissions:
-      contents: write # Grants the bot permission to save the CSV files back to your repo
+      contents: write  # Allows pushing changes back to the repo
 
     steps:
       - name: Checkout repository
@@ -34,7 +35,11 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add *.csv
-          git commit -m "Automated daily CSV data append" |
 
-| echo "No new data to commit"
-        git push
+          # Check if there are staged changes
+          if git diff --cached --quiet; then
+            echo "No new data to commit"
+          else
+            git commit -m "Automated daily CSV data append"
+            git push
+          fi
