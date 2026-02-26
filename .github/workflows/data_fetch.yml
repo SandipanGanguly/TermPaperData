@@ -28,7 +28,7 @@ jobs:
           pip install yfinance pandas
 
       - name: Run Data Fetcher Script
-        run: python update_data.py
+        run: python data_fetcher.py
 
       - name: Commit and Push changes
         run: |
