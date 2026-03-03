@@ -46,14 +46,17 @@ jobs:
           fi
 
   run_analysis:
-    needs: fetch_and_commit # This ensures it runs strictly after the fetch
+    needs: fetch_and_commit
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Needed to push changes
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Pull the latest changes pushed by the first job
+          ref: ${{ github.ref }} 
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -63,22 +66,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy 
+          pip install pandas numpy
 
       - name: Run Timezone Alignment and Correlation
         run: python analyze_correlation.py
 
-      - name: Commit and Push Analysis Results
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          
-          git add correlation_results.txt
-          
-          if git diff --cached --quiet; then
-            echo "No new analysis results to commit"
-          else
-            git commit -m "Updated daily correlation analysis"
-            git pull --rebase origin main
-            git push
-          fi
+      - name: Auto-commit the analysis results
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Automated update: Correlation Analysis Results"
+          file_pattern: correlation_results.txt
+          skip_dirty_check: false
