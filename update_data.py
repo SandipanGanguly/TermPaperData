@@ -57,4 +57,4 @@ update_yfinance_data("^INDIAVIX", "INDIA_VIX_5min_Data.csv")
 update_yfinance_data("INR=X", "USDINR_5min_Data.csv")
 
 # 4. Global Volatility (VIX Futures)
-update_yfinance_data("ES=F", "GLOBAL_VIX_FUT_5min_Data.csv")
+update_yfinance_data("ES=F", "GLOBAL_SPX_FUT_5min_Data.csv")
