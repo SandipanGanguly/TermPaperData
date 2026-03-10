@@ -20,7 +20,7 @@ def update_yfinance_data(ticker, filename, interval="5m"):
         try:
             # Try to load the existing data
             old_df = pd.read_csv(filename, index_col=0, parse_dates=True)
-            new_df = fetch_and_clean(ticker, "7d", interval)
+            new_df = fetch_and_clean(ticker, "30d", interval)
             
             if not new_df.empty:
                 combined_df = pd.concat([old_df, new_df])
