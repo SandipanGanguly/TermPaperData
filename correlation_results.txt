@@ -1,4 +1,4 @@
 --- Econometric Correlation Report ---
-Observations (5-min ticks): 4837
-Cross-Correlation (r_nifty vs r_spx): 0.5903
+Observations (5-min ticks): 4912
+Cross-Correlation (r_nifty vs r_spx): 0.5988
 --------------------------------------
